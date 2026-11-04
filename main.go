@@ -11,10 +11,10 @@ func main(){
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "Hello, World!")
 	})
-	fmt.Println("Starting server on :8000...")
+	fmt.Println("Starting server on :8080...")
 	
 	// 2. Start the HTTP server listening on port 8000
-	err := http.ListenAndServe(":8000", nil)
+	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		panic(err)
 	}

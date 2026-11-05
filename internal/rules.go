@@ -58,6 +58,7 @@ var rules = []Rule{
 var badAgents = []string{"sqlmap", "nikto", "acunetix", "nessus", "dirbuster", "gobuster", "wpscan", "nuclei", "masscan"}
 
 func Inspect(next http.Handler) http.Handler {
+	var shouldBlock=true
     return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// WAF LOGIC HERE: Inspect request
 		// Example: Block a specific User-Agent or malicious path
@@ -65,8 +66,10 @@ func Inspect(next http.Handler) http.Handler {
 			for _,value:=range values{
 				for _,rule:=range rules{
 					if strings.Contains(value,rule.Pattern){
-						http.Error(w,"Forbidden by Web Applcation Firewall",http.StatusForbidden)
-						log.Fatalf("Attack detected: %s",rule.Name)
+						if shouldBlock{
+							http.Error(w,"Forbidden by Web Applcation Firewall",http.StatusForbidden)
+						}
+						log.Printf("Attack detected: %s",rule.Name)
 						return
 					}
 				}	

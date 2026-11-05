@@ -3,6 +3,7 @@ package waf
 import (
 	"net/http"
 	"strings"
+	"log"
 )
 type Rule struct {
 	Name    string
@@ -65,6 +66,7 @@ func Inspect(next http.Handler) http.Handler {
 				for _,rule:=range rules{
 					if strings.Contains(value,rule.Pattern){
 						http.Error(w,"Forbidden by Web Applcation Firewall",http.StatusForbidden)
+						log.Fatalf("Attack detected: %s",rule.Name)
 						return
 					}
 				}	

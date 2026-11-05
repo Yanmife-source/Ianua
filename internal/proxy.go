@@ -1,8 +1,6 @@
 package waf 
 
 import (
-	"fmt"
-	"net/http"
 	"net/http/httputil"
 	"net/url"
 	"log"
